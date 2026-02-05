@@ -2,8 +2,5 @@ ORIGEM=C:\deguto
 DESTINO=C:\arquivo_Linux
 
 NOMES=
-theros
-impressora
-coleta
-ze
-orelhinhapreta
+solare
+dre_notas
