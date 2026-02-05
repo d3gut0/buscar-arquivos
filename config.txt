@@ -2,5 +2,5 @@ ORIGEM=C:\deguto
 DESTINO=C:\arquivo_Linux
 
 NOMES=
-solare
 dre_notas
+planilha
