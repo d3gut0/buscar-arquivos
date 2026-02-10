@@ -2,5 +2,4 @@ ORIGEM=C:\deguto
 DESTINO=C:\arquivo_Linux
 
 NOMES=
-dre_notas
-planilha
+D2633

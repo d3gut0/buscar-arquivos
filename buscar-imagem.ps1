@@ -62,10 +62,30 @@ $arquivosEncontrados = 0
 $arquivosEncontrados = 0
 $naoEncontrados = @()
 
+# foreach ($nome in $nomes) {
+
+#     $resultados = Get-ChildItem -Path $origem -Recurse -File -ErrorAction SilentlyContinue |
+#         Where-Object { $_.Name -like "*$nome*" }
+
+#     if (!$resultados) {
+#         $naoEncontrados += $nome
+#     }
+#     else {
+#         foreach ($arquivo in $resultados) {
+#             Copy-Item $arquivo.FullName -Destination $destino -Force
+#             Write-Host "Copiado: $($arquivo.FullName)" -ForegroundColor Green
+#             $arquivosEncontrados++
+#         }
+#     }
+# }
+
 foreach ($nome in $nomes) {
 
+    # Remove tudo depois de ponto ou hífen
+    $codigoBase = $nome -replace '[\.\-].*$', ''
+
     $resultados = Get-ChildItem -Path $origem -Recurse -File -ErrorAction SilentlyContinue |
-        Where-Object { $_.Name -like "*$nome*" }
+        Where-Object { $_.BaseName -like "$codigoBase*" }
 
     if (!$resultados) {
         $naoEncontrados += $nome
