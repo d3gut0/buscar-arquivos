@@ -85,7 +85,7 @@ foreach ($nome in $nomes) {
     $codigoBase = $nome -replace '[\.\-].*$', ''
 
     $resultados = Get-ChildItem -Path $origem -Recurse -File -ErrorAction SilentlyContinue |
-        Where-Object { $_.BaseName -like "$codigoBase*" }
+        Where-Object { $_.BaseName -like "*$codigoBase*" }
 
     if (!$resultados) {
         $naoEncontrados += $nome
