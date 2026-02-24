@@ -81,17 +81,33 @@ $naoEncontrados = @()
 
 foreach ($nome in $nomes) {
 
-    # Remove tudo depois de ponto ou hífen
-    $codigoBase = $nome -replace '[\.\-].*$', ''
+    # Normaliza entrada do usuário
+    $tokensBusca = $nome -split "[-/._]"
+    $tokensBusca = $tokensBusca | Where-Object { $_ -ne "" }
 
-    $resultados = Get-ChildItem -Path $origem -Recurse -File -ErrorAction SilentlyContinue |
-        Where-Object { $_.BaseName -like "*$codigoBase*" }
+    $resultados = Get-ChildItem -Path $origem -Recurse -File |
+        Where-Object {
+
+            # Quebra nome do arquivo
+            $tokensArquivo = $_.BaseName -split "[-/._]"
+
+            # Verifica se todos tokens da busca existem no nome
+            $match = $true
+            foreach ($token in $tokensBusca) {
+                if ($tokensArquivo -notcontains $token) {
+                    $match = $false
+                    break
+                }
+            }
+
+            $match
+        }
 
     if (!$resultados) {
         $naoEncontrados += $nome
     }
     else {
-        foreach ($arquivo in $resultados) {
+        foreach ($arquivo in $resultados | Select-Object -Unique) {
             Copy-Item $arquivo.FullName -Destination $destino -Force
             Write-Host "Copiado: $($arquivo.FullName)" -ForegroundColor Green
             $arquivosEncontrados++
